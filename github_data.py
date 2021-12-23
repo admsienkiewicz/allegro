@@ -9,10 +9,22 @@ class GithubAPICrawler:
     def request_repos_data(self, page_number):
         return requests.get(f"https://api.github.com/users/{self.username}/repos?simple=yes&per_page=100&page={page_number}").json()
 
+    def catch_user_not_found(self, repos):
+        not_found = False
+        try:
+            if repos["message"] == "Not Found":
+                not_found = True
+        except:
+            pass
+        return not_found
+
     def get_user_repos(self):
         repos_list = []
         page_number = 1
         repos = self.request_repos_data(page_number)
+        # if user not found return not found message
+        if self.catch_user_not_found(repos):
+            return {"message" : "username not found"}
         # loop thorugh pages untill there is an empty page
         while len(repos) > 0:
             for repo in repos:
@@ -34,6 +46,9 @@ class GithubAPICrawler:
         stars_counter = 0
         page_number = 1
         repos = self.request_repos_data(page_number)
+        # if user not found return not found message
+        if self.catch_user_not_found(repos):
+            return {"message" : "username not found"}
         # loop thorugh pages untill there is an empty page
         while len(repos) > 0:
             for repo in repos:
@@ -48,6 +63,9 @@ class GithubAPICrawler:
         languages_list = []
         page_number = 1
         repos = self.request_repos_data(page_number)
+        # if user not found return not found message
+        if self.catch_user_not_found(repos):
+            return {"message" : "username not found"}
         # loop thorugh pages untill there is an empty page
         while len(repos) > 0:
             for repo in repos:
