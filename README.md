@@ -170,4 +170,6 @@ Response:
   }
 ]
 ```
-
+## Limitation 
+* GitHub Api which was used in that project allows up to 60 requests in one hour therefore this the maximum number of times created Rest Api would return propper response, when user tries to request more than 60 times in one hour api returns message that API rate limit was exceeded
+* Size of the programming language used isnt excaclly size of that language files, it's size of repo where that laguage is "main language"
