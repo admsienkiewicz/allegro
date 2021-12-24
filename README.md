@@ -10,6 +10,7 @@ The entire application is contained within the `main.py` file, with additional `
 * Activate created virtual enviroment by running 
   * `source venv/bin/activate` on Linux and MacOS
   * `venv\scripts\activate` on Windows
+* Install python dependencies related to this project by running `pip3 install -r requirements.txt`
 
 ## Run server
 To run server paste following to your terminal: `uvicorn main:app`, this creates server on `http://127.0.0.1:8000/` go to that page and you should see default Swagger UI created by FastApi Framework wherefrom you can test API methods and see documentation
