@@ -34,7 +34,7 @@ Response:
 [
   {
     "name": "allegro",
-    "stars": 0
+    "stars": 1
   },
   {
     "name": "assignments",
