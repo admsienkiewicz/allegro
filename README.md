@@ -10,6 +10,7 @@ The entire application is contained within the `main.py` file, with additional `
 * Activate created virtual enviroment by running 
   * `source venv/bin/activate` on Linux and MacOS
   * `venv\scripts\activate` on Windows
+* Install python dependencies related to this project by running `pip3 install -r requirements.txt`
 
 ## Run server
 To run server paste following to your terminal: `uvicorn main:app`, this creates server on `http://127.0.0.1:8000/` go to that page and you should see default Swagger UI created by FastApi Framework wherefrom you can test API methods and see documentation
@@ -91,18 +92,18 @@ Response:
   "total number of stars given to this user": 14398
 }
 ```
-### Get list of languages used in users repositories with comabain size (in kb's) of repos in that language
+### Get list of languages used in users repositories with comabain size (in kb's) of repos in that language (SIMPLIFIED VERSION LANGUAGE SIZE AS A REPO SIZE SEE LIMITATIONS PARAGRAPH)
 #### Example
 
 Curl:
 ```
 curl -X 'GET' \
-  'http://127.0.0.1:8000/languages_stats/allegro' \
+  'http://127.0.0.1:8000/languages_stats_simple/allegro' \
   -H 'accept: application/json'
 ```
 Request URL:
 ```
-http://127.0.0.1:8000/languages_stats/allegro
+http://127.0.0.1:8000/languages_stats_simple/allegro
 ```
 Response:
 
@@ -170,6 +171,52 @@ Response:
   }
 ]
 ```
+### Get list of languages used in users repositories with comabain size (in bytes) of files in that language
+
+#### Example:
+
+Curl:
+```
+curl -X 'GET' \
+  'http://127.0.0.1:8000/languages_stats/admsienkiewicz' \
+  -H 'accept: application/json'
+```
+
+Request URL:
+```
+http://127.0.0.1:8000/languages_stats/admsienkiewicz
+```
+Response:
+```
+[
+  {
+    "language": "Jupyter Notebook",
+    "size": 3166355
+  },
+  {
+    "language": "Python",
+    "size": 40902
+  },
+  {
+    "language": "JavaScript",
+    "size": 15520
+  },
+  {
+    "language": "CSS",
+    "size": 9527
+  },
+  {
+    "language": "HTML",
+    "size": 6340
+  }
+]
+```
+
 ## Limitation 
 * GitHub Api which was used in that project allows up to 60 requests in one hour therefore this the maximum number of times created Rest Api would return propper response, when user tries to request more than 60 times in one hour api returns message that API rate limit was exceeded
-* Size of the programming language used isnt excaclly size of that language files, it's size of repo where that laguage is "main language"
+* Size of the programming language shown in simplified version of get languge stats isnt excaclly size of that language files, it's size of repo where that laguage is "main language" (It is that way couse of limitation mantion above, every repo has it own languages endpoint and its possible to check every language file sizes but it will not work with users with over 60 repos, it will exceeded GitHub API limits therefore applied method returns only repo size and assign it to main language size and is preffered over normal method in bigger collection of repos)
+
+## Posible development in the future
+* geting more infos than name and stars from repos
+* results paging
+* methods optimization 
