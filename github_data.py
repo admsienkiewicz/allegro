@@ -58,7 +58,7 @@ class GithubAPICrawler:
 
         return {"total number of stars given to this user": stars_counter}
 
-    def list_used_languages(self):
+    def list_used_languages_simplified(self):
         languages_list = []
         page_number = 1
         repos = self.request_repos_data(page_number)
@@ -92,3 +92,43 @@ class GithubAPICrawler:
             languages_list, key=lambda item: item["size"], reverse=True)
 
         return languages_list
+
+    def list_used_languages(self):
+        languages_list = []
+        page_number = 1
+        repos = self.request_repos_data(page_number)
+        # if error message apeared return it 
+        if self.catch_error_message(repos) != None:
+            return {"message" : self.catch_error_message(repos)}
+        # loop thorugh pages untill there is an empty page
+        while len(repos) > 0:
+            for repo in repos:
+                # if language__ur not defined in repo skip that repo
+                if repo['languages_url'] == None:
+                    continue
+                # request to language_url 
+                languages_dict = requests.get(repo['languages_url']).json()
+                repo_languages = list(languages_dict.keys())
+                for repo_language in repo_languages: 
+                    # if language already in the list add to the size value
+                    if len(languages_list) > 0:
+                        listed_language = next(
+                            (item for item in languages_list if item["language"] == repo_language), None)
+                        if listed_language != None:
+                            listed_language['size'] += languages_dict[repo_language]
+                            continue
+                    # else add new language to the list with size property
+                    language = {
+                        "language": repo_language,
+                        "size": languages_dict[repo_language],
+                    }
+                    languages_list.append(language)
+            # go to next the page
+            page_number += 1
+            repos = self.request_repos_data(page_number)
+        # sort languge list by size in descending order
+        languages_list = sorted(
+            languages_list, key=lambda item: item["size"], reverse=True)
+
+        return languages_list
+

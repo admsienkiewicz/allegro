@@ -20,6 +20,11 @@ async def stars(username : str):
     gh_crawler = GithubAPICrawler(username)
     return gh_crawler.get_number_of_stars()
 
+@app.get("/languages_stats_simple/{username}")
+async def language_stats(username : str):
+    gh_crawler = GithubAPICrawler(username)
+    return gh_crawler.list_used_languages_simplified()
+
 @app.get("/languages_stats/{username}")
 async def language_stats(username : str):
     gh_crawler = GithubAPICrawler(username)
