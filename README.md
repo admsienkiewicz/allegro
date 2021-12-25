@@ -173,7 +173,7 @@ Response:
 ```
 ## Limitation 
 * GitHub Api which was used in that project allows up to 60 requests in one hour therefore this the maximum number of times created Rest Api would return propper response, when user tries to request more than 60 times in one hour api returns message that API rate limit was exceeded
-* Size of the programming language used isnt excaclly size of that language files, it's size of repo where that laguage is "main language"
+* Size of the programming language shown isnt excaclly size of that language files, it's size of repo where that laguage is "main language" (It is that way couse of limitation mantion above, every repo has it own languages endpoint and its possible to check every language file sizes but it will not work with users with over 60 repos, it will exceeded GitHub API limits therefore applied method returns only repo size and assign it to main language size)
 
 ## Posible development in the future
 * geting more infos than name and stars from repos
